@@ -61,7 +61,7 @@ export const AuthLoginModule = () => {
   });
 
   return (
-    <AuthTemplate onSubmit={onSubmit} title="Ruang Meeting" subTitle="Masuk ke akun anda">
+    <AuthTemplate onSubmit={onSubmit} title="Masuk" subTitle="Masuk ke akun anda">
       <ControlledFieldText
         control={control}
         size="md"
