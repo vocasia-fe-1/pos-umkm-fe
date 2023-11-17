@@ -7,9 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export const AuthLoginModule = () => {
-  const regexPassword = new RegExp(
-    /^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/,
-  );
   const validationSchema = z.object({
     email: z
       .string()
@@ -20,10 +17,13 @@ export const AuthLoginModule = () => {
       .max(60, { message: "Email tidak boleh lebih dari 60 karakter" }),
     password: z
       .string()
-      .min(1, { message: "Kata Sandi tidak boleh kosong" })
-      .min(8, { message: "Kata Sandi minimal 8" })
-      .regex(regexPassword, {
-        message: "Kata Sandi harus mengandung huruf kecil, huruf besar, dan angka",
+      .regex(new RegExp(".*[A-Z].*"), { message: "Password harus ada huruf kapital" })
+      .min(1, { message: "Password harus diisi" })
+      .max(60, { message: "Password tidak boleh lebih dari 60 karakter" })
+      .regex(new RegExp(".*[a-z].*"), { message: "Password harus ada huruf kecil" })
+      .regex(new RegExp(".*[0-9].*"), { message: "Password harus ada angka" })
+      .regex(new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"), {
+        message: "Password harus ada karakter khusus atau simbol",
       }),
   });
 
