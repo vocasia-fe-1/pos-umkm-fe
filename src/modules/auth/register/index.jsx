@@ -1,9 +1,9 @@
 import { Button, ControlledFieldCheckbox, ControlledFieldText, AuthTemplate } from "@/components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLogin } from "./hook";
+import { useRegister } from "./hook";
 import { z } from "zod";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 
 export const AuthRegisterModule = () => {
@@ -29,6 +29,17 @@ export const AuthRegisterModule = () => {
       .regex(new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"), {
         message: "Password harus ada karakter khusus atau simbol",
       }),
+    confirm_password: z
+      .string()
+      .min(1, { message: "Konfirmasi password harus diisi" })
+      .refine((val) => val === watch("password"), {
+        message: "Konfirmasi password tidak sama",
+      }),
+    toc: z
+      .literal(true, { message: "Anda harus menyetujui syarat dan ketentuan" })
+      .refine((val) => val, {
+        message: "Anda harus menyetujui syarat dan ketentuan",
+      }),
   });
 
   const navigate = useNavigate();
@@ -49,10 +60,12 @@ export const AuthRegisterModule = () => {
       fullname: "",
       email: "",
       password: "",
+      confirm_password: "",
+      toc: false,
     },
   });
 
-  const { mutate, isLoading } = useLogin();
+  const { mutate, isLoading } = useRegister();
 
   const onSubmit = handleSubmit((data) => {
     mutate(data, {
@@ -66,7 +79,7 @@ export const AuthRegisterModule = () => {
   });
 
   return (
-    <AuthTemplate onSubmit={onSubmit} title="Register" subTitle="Daftarkan Akun anda">
+    <AuthTemplate onSubmit={onSubmit} subTitle="Buat Akun anda sekarang">
       <ControlledFieldText
         control={control}
         size="md"
@@ -75,14 +88,18 @@ export const AuthRegisterModule = () => {
         name="fullname"
         placeholder="Masukkan nama lengkap anda"
         status={
-          watch("email") === "" && !errors.fullname ? "none" : errors.fullname ? "error" : "success"
+          watch("fullname") === "" && !errors.fullname
+            ? "none"
+            : errors.fullname
+            ? "error"
+            : "success"
         }
         message={
-          watch("email") === "" && !errors.fullname
+          watch("fullname") === "" && !errors.fullname
             ? ""
             : errors.fullname
             ? errors.fullname?.message
-            : "Email Valid"
+            : "Nama Lengkap Valid"
         }
       />
 
@@ -110,7 +127,9 @@ export const AuthRegisterModule = () => {
         label="Kata Sandi"
         type="password"
         name="password"
-        placeholder="Masukkan email anda"
+        hint="Kata sandi setidaknya ada 8 karakter, 1 huruf kapital, 1 angka, dan 1 karakter khusus"
+        autoComplete="new-password"
+        placeholder="Masukkan kata sandi anda"
         status={
           watch("password") === "" && !errors.password
             ? "none"
@@ -126,23 +145,58 @@ export const AuthRegisterModule = () => {
             : "Kata Sandi Valid"
         }
       />
+      <ControlledFieldText
+        control={control}
+        size="md"
+        label="Konfirmasi Kata Sandi"
+        type="password"
+        name="confirm_password"
+        placeholder="Masukkan konfirmasi kata sandi"
+        hint="Konfirmasi kata sandi harus sama dengan kata sandi yang anda masukkan di atas"
+        status={
+          watch("confirm_password") === "" && !errors.confirm_password
+            ? "none"
+            : errors.confirm_password
+            ? "error"
+            : "success"
+        }
+        message={
+          watch("confirm_password") === "" && !errors.confirm_password
+            ? ""
+            : errors.confirm_password
+            ? errors.confirm_password?.message
+            : "Konfirmasi Kata Sandi Valid"
+        }
+      />
+
       <div className="flex items-center justify-between">
-        <ControlledFieldCheckbox control={control} text="Ingat saya" name="remember" />
-        <a
-          href="#"
-          className="text-sm font-medium text-primary-600 hover:underline dark:text-white"
-        >
-          Lupa Kata Sandi?
-        </a>
+        <ControlledFieldCheckbox
+          control={control}
+          text="Setujui syarat dan ketentuan"
+          name="toc"
+          required
+          hint="Anda perlu menyetujui syarat dan ketentuan berlaku untuk bisa menyelesaikan pendaftaran"
+          status={!watch("toc") && !errors.toc ? "none" : errors.toc ? "error" : "success"}
+          message={
+            !watch("password") && !errors.toc
+              ? ""
+              : errors.toc
+              ? errors.toc?.message
+              : "Berhasil Menyetujui syarat dan ketentuan"
+          }
+        />
       </div>
       <Button disabled={!isValid} loading={isLoading} type="submit">
-        Masuk sekarang
+        Daftar sekarang
       </Button>
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-        Belum punya akun?{" "}
-        <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-          Daftar Sekarang
-        </a>
+        Sudah punya akun?{" "}
+        <Link
+          to="/auth/login"
+          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+        >
+          Login disini
+        </Link>
       </p>
     </AuthTemplate>
   );

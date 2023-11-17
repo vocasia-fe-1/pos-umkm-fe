@@ -1,5 +1,5 @@
 import { AuthLoginModule } from "@/modules";
 
-export const HomePage = () => {
+export const AuthLoginPage = () => {
   return <AuthLoginModule />;
 };

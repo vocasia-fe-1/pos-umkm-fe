@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogin } from "./hook";
 import { z } from "zod";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 
 export const AuthLoginModule = () => {
@@ -61,7 +61,7 @@ export const AuthLoginModule = () => {
   });
 
   return (
-    <AuthTemplate onSubmit={onSubmit} title="Masuk" subTitle="Masuk ke akun anda">
+    <AuthTemplate onSubmit={onSubmit} subTitle="Selamat datang kembali">
       <ControlledFieldText
         control={control}
         size="md"
@@ -116,9 +116,12 @@ export const AuthLoginModule = () => {
       </Button>
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
         Belum punya akun?{" "}
-        <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-          Daftar Sekarang
-        </a>
+        <Link
+          to="/auth/register"
+          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+        >
+          Daftar disini
+        </Link>
       </p>
     </AuthTemplate>
   );
