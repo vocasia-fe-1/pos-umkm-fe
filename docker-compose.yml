@@ -1,0 +1,7 @@
+version: "3"
+services:
+  boilerplate:
+    build: ./
+    container_name: "belajar-react"
+    ports:
+      - "80:8080"
