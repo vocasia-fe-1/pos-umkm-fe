@@ -80,47 +80,49 @@ export const AuthRegisterModule = () => {
 
   return (
     <AuthTemplate onSubmit={onSubmit} subTitle="Buat Akun anda sekarang">
-      <ControlledFieldText
-        control={control}
-        size="md"
-        label="Nama Lengkap"
-        type="text"
-        name="fullname"
-        placeholder="Masukkan nama lengkap anda"
-        status={
-          watch("fullname") === "" && !errors.fullname
-            ? "none"
-            : errors.fullname
-            ? "error"
-            : "success"
-        }
-        message={
-          watch("fullname") === "" && !errors.fullname
-            ? ""
-            : errors.fullname
-            ? errors.fullname?.message
-            : "Nama Lengkap Valid"
-        }
-      />
+      <section className="flex gap-x-4">
+        <ControlledFieldText
+          control={control}
+          size="md"
+          label="Nama Lengkap"
+          type="text"
+          name="fullname"
+          placeholder="Masukkan nama lengkap anda"
+          status={
+            watch("fullname") === "" && !errors.fullname
+              ? "none"
+              : errors.fullname
+              ? "error"
+              : "success"
+          }
+          message={
+            watch("fullname") === "" && !errors.fullname
+              ? ""
+              : errors.fullname
+              ? errors.fullname?.message
+              : "Nama Lengkap Valid"
+          }
+        />
 
-      <ControlledFieldText
-        control={control}
-        size="md"
-        label="Email"
-        type="email"
-        name="email"
-        placeholder="Masukkan email anda"
-        status={
-          watch("email") === "" && !errors.email ? "none" : errors.email ? "error" : "success"
-        }
-        message={
-          watch("email") === "" && !errors.email
-            ? ""
-            : errors.email
-            ? errors.email?.message
-            : "Email Valid"
-        }
-      />
+        <ControlledFieldText
+          control={control}
+          size="md"
+          label="Email"
+          type="email"
+          name="email"
+          placeholder="Masukkan email anda"
+          status={
+            watch("email") === "" && !errors.email ? "none" : errors.email ? "error" : "success"
+          }
+          message={
+            watch("email") === "" && !errors.email
+              ? ""
+              : errors.email
+              ? errors.email?.message
+              : "Email Valid"
+          }
+        />
+      </section>
       <ControlledFieldText
         control={control}
         size="md"

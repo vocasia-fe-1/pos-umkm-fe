@@ -2,8 +2,8 @@ import { Outlet } from "react-router-dom";
 
 export const AuthTemplate = (props) => {
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 w-full h-full min-h-screen">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto ">
+    <section className="bg-gray-50 dark:bg-gray-900 w-full h-full flex items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center justify-center px-6 py-8 w-full">
         <span className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
           {props.title}
         </span>
